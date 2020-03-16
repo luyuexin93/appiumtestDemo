@@ -17,6 +17,8 @@ public class AppiumDemo1 {
 	
   private static AndroidDriver driver=null;
   private static DesiredCapabilities cap=new DesiredCapabilities();
+  private String projectpath = System.getProperty("user.dir");
+  //获取系统属性
   
   @BeforeClass
   public void setAppium() throws MalformedURLException{
@@ -33,7 +35,7 @@ public class AppiumDemo1 {
 	  
   }
   @Test
-  public void f() throws Exception {
+  public void setPermission() throws Exception {
 	  try {
 		  driver.findElement(By.id("goto_settings")).click();
 		  //权限窗口 点击始终允许
