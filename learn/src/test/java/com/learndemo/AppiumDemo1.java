@@ -1,19 +1,25 @@
 package com.learndemo;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.lang.ObjectUtils.Null;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import io.appium.java_client.android.AndroidDriver;
 
 public class AppiumDemo1 {
-  @Test
-  public void f() throws Exception {
-	  AndroidDriver driver;
-	  DesiredCapabilities cap = new DesiredCapabilities();
+	
+  private static AndroidDriver driver=null;
+  private DesiredCapabilities cap=new DesiredCapabilities();
+  
+  @BeforeClass
+  public void setAppium() throws MalformedURLException{
 	  cap.setCapability("automationName", "Appium");
 	  cap.setCapability("deviceName", "S4");
 	  cap.setCapability("platformName", "Android"); //设置平台
@@ -24,11 +30,20 @@ public class AppiumDemo1 {
 	  cap.setCapability("newCommandTimeout", "30");
 	  driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
 	  driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-	  driver.findElement(By.id("goto_settings")).click();
-	  //权限窗口 点击始终允许
-	  for(int i=0;i<6;i++) {
-		  driver.findElementByXPath("//*[@text='始终允许']").click();
-	  }
+	  
+  }
+  @Test
+  public void f() throws Exception {
+	  try {
+		  driver.findElement(By.id("goto_settings")).click();
+		  //权限窗口 点击始终允许
+		  for(int i=0;i<6;i++) {
+			  driver.findElementByXPath("//*[@text='始终允许']").click();
+		  }
+	} catch (Exception e) {
+		// TODO: handle exception
+		e.printStackTrace();
+	}
 	  
 	  
   }

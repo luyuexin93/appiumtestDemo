@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidKeyCode;
 
 public class Aweme {
 	
@@ -63,7 +64,7 @@ public class Aweme {
 		  /**
 		   * 向上滑动10次
 		   */
-		  while (i<10) {
+		  while (i<1000) {
 //		  for(int i=0;i<3;i++) {
 //			  driver.swipe(500, 1500,500, 400, 1000);
 //			  Thread.currentThread();
@@ -72,9 +73,24 @@ public class Aweme {
 //		  }
 			  driver.swipe(500, 1500,500, 400, 1000);
 			  Thread.currentThread();
-			  Thread.sleep(20000);
+			  Thread.sleep(10000);
 			  i++;
 		  }
+		  //系统回退键
+		  driver.sendKeyEvent(AndroidKeyCode.BACK);
+		  /*
+		   * public interface AndroidKeyCode {
+
+		  int BACK = 4;
+		  int BACKSPACE = 67;
+		  int DEL = 67;
+		  int ENTER = 66;
+		  int HOME = 3;
+		  int MENU = 82;
+		  int SETTINGS = 176;
+		  int SPACE = 62;
+
+}*/
 	}
 
 }

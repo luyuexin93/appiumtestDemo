@@ -5,5 +5,6 @@
     <packages>
       <package name="com.learndemo" />
    </packages>
+   
  </test>
 </suite>
