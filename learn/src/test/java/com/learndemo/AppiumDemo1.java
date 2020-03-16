@@ -16,7 +16,7 @@ import io.appium.java_client.android.AndroidDriver;
 public class AppiumDemo1 {
 	
   private static AndroidDriver driver=null;
-  private DesiredCapabilities cap=new DesiredCapabilities();
+  private static DesiredCapabilities cap=new DesiredCapabilities();
   
   @BeforeClass
   public void setAppium() throws MalformedURLException{
