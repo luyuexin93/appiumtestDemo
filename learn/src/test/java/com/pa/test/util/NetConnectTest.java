@@ -5,10 +5,12 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.lang.ObjectUtils.Null;
 import org.omg.CORBA.PUBLIC_MEMBER;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.pa.util.NetworkState;
+import com.pa.util.NetworkStates;
 
 import io.appium.java_client.NetworkConnectionSetting;
 import io.appium.java_client.android.AndroidDriver;
@@ -17,7 +19,7 @@ public class NetConnectTest {
 	private static AndroidDriver driver=null;
 	  private static DesiredCapabilities cap=new DesiredCapabilities();
 	  private String projectpath = System.getProperty("user.dir");
-	  private NetworkConnectionSetting nct=new NetworkConnectionSetting(false, true, true);
+	  private static NetworkConnectionSetting nct;
 	  
 	  //获取系统属性
 	  
@@ -35,16 +37,30 @@ public class NetConnectTest {
 		  driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		  
 	  }
+	  
 	public static void main(String [] args) throws MalformedURLException {
 		HashMap<String, Object> map = new HashMap<String, Object>();
+		HashMap<String, Object> map2 = new HashMap<String, Object>();
 		NetConnectTest.setAppium();
-		map=NetworkState.getNetworkState(driver);
-		String netString=driver.getNetworkConnection().toString();
+		nct=driver.getNetworkConnection();
+		nct = new NetworkStates(nct.value); 
+	    NetworkStates nct2 = (NetworkStates) nct;
+		String netString=nct.toString();
 		System.out.println(netString);
+		
+		map=nct2.getNetworkState();
+		
+		
+		
 		if(map.get("wifiMode").equals(true)) {
 			System.out.println("wifiEnabled");
 		}else {
 			System.out.println("wifiDisabled");
 		}
+		
+		nct2.setDataOnly();
+		map=
+		
+	
 	}
 }

@@ -14,7 +14,7 @@ public class NetworkState {
 	
 	
 	
-	public static HashMap<String, Object> getNetworkState(AndroidDriver driver ) {
+	public static HashMap<String, Object> getNetworkState(NetworkConnectionSetting nct ) {
 //		public int value = 0;
 //		  private int airplaneMode = 1;
 //		  private int wifi = 2;
@@ -34,9 +34,8 @@ public class NetworkState {
 //		    value = a | b | c;
 //		  }
 	    HashMap<String, Object> map = new HashMap<String, Object>();
-		if(driver!=null) {
+		if(nct!=null) {
 			try {
-				nct=driver.getNetworkConnection();
 				if(nct.airplaneModeEnabled()) {
 					map.put("airplaneMode", true);
 				}else {

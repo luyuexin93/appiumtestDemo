@@ -31,7 +31,7 @@ public class NetworkStates extends NetworkConnectionSetting {
 	public void setAll() {
 		value=ALL_MODE;
 	}
-	public HashMap<String, Object> getNetworkState() {
+	public HashMap<String, Object> getNetworkState(AndroidDriver driver) {
 //		 public int value = 0;
 //		  private int airplaneMode = 1;
 //		  private int wifi = 2;
@@ -56,6 +56,10 @@ public class NetworkStates extends NetworkConnectionSetting {
 //
 //		  public boolean dataEnabled() { return (value & data) != 0; }
 	    HashMap<String, Object> map = new HashMap<String, Object>();
+	    if (driver!=null) {
+	    	NetworkConnectionSetting nct= driver.getNetworkConnection();
+	    	
+	    }
 		if (airplaneModeEnabled()) {
 			map.put("airplaneMode", true);
 		}else {
@@ -77,7 +81,7 @@ public class NetworkStates extends NetworkConnectionSetting {
 	public static void main(String[] args) {
 		NetworkStates nss = new NetworkStates(7);
 		System.out.println(nss.toString());
-		System.out.println(nss.getNetworkState().get("dataMode"));
+//		System.out.println(nss.getNetworkState().get("dataMode"));
 		
 		
 	}
