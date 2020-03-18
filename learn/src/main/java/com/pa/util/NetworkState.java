@@ -12,27 +12,13 @@ public class NetworkState {
 	public static final int WIFI_ONLY=2;
 	public static final int ALL_MODE=7;
 	
-	
+	/**
+	 * format networkConnectionSetting to HashMap
+	 * @param nct
+	 * @return
+	 */
 	
 	public static HashMap<String, Object> getNetworkState(NetworkConnectionSetting nct ) {
-//		public int value = 0;
-//		  private int airplaneMode = 1;
-//		  private int wifi = 2;
-//		  private int data = 4;
-//
-//		  /**
-//		   *
-//		   * @param airplaneMode boolean for airplane mode enabled
-//		   * @param wifi boolean for wifi enabled
-//		   * @param data boolean for data enabled
-//		   */
-//		  public NetworkConnectionSetting(boolean airplaneMode, boolean wifi, boolean data) {
-//		    int a = airplaneMode ? this.airplaneMode : 0;
-//		    int b = wifi ? this.wifi : 0;
-//		    int c = data ? this.data : 0;
-//
-//		    value = a | b | c;
-//		  }
 	    HashMap<String, Object> map = new HashMap<String, Object>();
 		if(nct!=null) {
 			try {
@@ -59,5 +45,57 @@ public class NetworkState {
 		}
 		return map;
 	}
+	
+	public static NetworkConnectionSetting setDataOnly(NetworkConnectionSetting nct) {
+		nct.value=DATA_ONLY;
+		return nct;
+	}
+	
+	public static NetworkConnectionSetting setWiFiOnly(NetworkConnectionSetting nct) {
+		nct.value=WIFI_ONLY;
+		return nct;
+	}
+	
+	public static NetworkConnectionSetting setAll_Mode(NetworkConnectionSetting nct) {
+		nct.value=ALL_MODE;
+		return nct;
+	}
+	
+	public static void setWiFiOff(AndroidDriver driver,NetworkConnectionSetting nct) {
+		if (!driver.equals(null)) {
+			nct.setWifi(false);
+		}
+	}
+	public static void setWiFiOn(AndroidDriver driver,NetworkConnectionSetting nct) {
+		if (!driver.equals(null)) {
+			nct.setWifi(true);
+		}
+	}
+	
+	public static void dataOff(AndroidDriver driver,NetworkConnectionSetting nct) {
+		if (!driver.equals(null)) {
+			nct.setData(false);
+		}
+	}
+	
+	public static void dataOn(AndroidDriver driver,NetworkConnectionSetting nct) {
+		if (!driver.equals(null)) {
+			nct.setData(true);
+		}
+	}
+	public static void airplaneOn(AndroidDriver driver,NetworkConnectionSetting nct) {
+		if (!driver.equals(null)) {
+			nct.setAirplaneMode(true);
+		}
+	}
+	public static void airplaneOff(AndroidDriver driver,NetworkConnectionSetting nct) {
+		if (!driver.equals(null)) {
+			nct.setAirplaneMode(false);
+		}
+	}
+	
+	
+	
+	
 	
 }

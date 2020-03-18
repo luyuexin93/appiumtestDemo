@@ -5,13 +5,9 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.lang.ObjectUtils.Null;
-import org.omg.CORBA.PUBLIC_MEMBER;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.pa.util.NetworkState;
-import com.pa.util.NetworkStates;
-
 import io.appium.java_client.NetworkConnectionSetting;
 import io.appium.java_client.android.AndroidDriver;
 
@@ -43,24 +39,17 @@ public class NetConnectTest {
 		HashMap<String, Object> map2 = new HashMap<String, Object>();
 		NetConnectTest.setAppium();
 		nct=driver.getNetworkConnection();
-		nct = new NetworkStates(nct.value); 
-	    NetworkStates nct2 = (NetworkStates) nct;
 		String netString=nct.toString();
 		System.out.println(netString);
-		
-		map=nct2.getNetworkState();
-		
-		
-		
+		map=NetworkState.getNetworkState(nct);
 		if(map.get("wifiMode").equals(true)) {
 			System.out.println("wifiEnabled");
 		}else {
 			System.out.println("wifiDisabled");
 		}
-		
-		nct2.setDataOnly();
-		map=
-		
-	
+		if (map.get("dataMode").equals(true)) {
+			System.out.println("data is ok");
+		}
+		NetworkState.setWiFiOn(driver, nct);
 	}
 }
