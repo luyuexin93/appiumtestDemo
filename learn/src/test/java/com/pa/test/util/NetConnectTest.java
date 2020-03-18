@@ -1,24 +1,20 @@
-package com.pa;
+package com.pa.test.util;
 
-import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
+import org.omg.CORBA.PUBLIC_MEMBER;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import com.pa.util.NetworkState;
 
-import com.pa.controller.LoginController;
 import io.appium.java_client.NetworkConnectionSetting;
 import io.appium.java_client.android.AndroidDriver;
 
-
-public class Test2 {
-	 private static AndroidDriver driver=null;
+public class NetConnectTest {
+	private static AndroidDriver driver=null;
 	  private static DesiredCapabilities cap=new DesiredCapabilities();
 	  private String projectpath = System.getProperty("user.dir");
 	  private NetworkConnectionSetting nct=new NetworkConnectionSetting(false, true, true);
@@ -37,30 +33,18 @@ public class Test2 {
 		  cap.setCapability("noReset", "true");//she
 		  driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
 		  driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-		  driver.getNetworkConnection();
+		  
 	  }
-	  
-
-	  
-	  public static void main(String []args) throws Exception {
-		  Test2.setAppium();
-		  LoginController.login(driver, "057105", "057105");
-//		  if(Element.isElementExist(LoginPage.login_Wait(driver))) {
-//			  System.out.println(LoginPage.login_Wait(driver).getText());
-//		  }
-//		  if(Element.isElementExist(LoginPage.login_Message(driver))) {
-//			  System.out.println(LoginPage.login_Message(driver).getText());
-//		  }
-		  try {
-			  File screenShot = driver.getScreenshotAs(OutputType.FILE); //此段停止执行，提示 Connection reset
-			  Date date=new Date();
-			  SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-			  String timeString=sdf.format(date);
-//			  FileUtils.copyFile(screenShot,new File("D:\\testscrren.jpg"));
-			  FileUtils.copyFile(screenShot,new File("./screenshot/"+timeString+".jpg"));
-
-			  } catch (Exception e) {
-			  e.printStackTrace(); }
-			  }
-	  
+	public static void main(String [] args) throws MalformedURLException {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		NetConnectTest.setAppium();
+		map=NetworkState.getNetworkState(driver);
+		String netString=driver.getNetworkConnection().toString();
+		System.out.println(netString);
+		if(map.get("wifiMode").equals(true)) {
+			System.out.println("wifiEnabled");
+		}else {
+			System.out.println("wifiDisabled");
+		}
+	}
 }
