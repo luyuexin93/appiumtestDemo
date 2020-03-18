@@ -13,12 +13,14 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 
 import com.pa.controller.LoginController;
+import com.pa.util.Screenshot;
+
 import io.appium.java_client.NetworkConnectionSetting;
 import io.appium.java_client.android.AndroidDriver;
 
 
 public class Test2 {
-	 private static AndroidDriver driver=null;
+	  private static AndroidDriver driver=null;
 	  private static DesiredCapabilities cap=new DesiredCapabilities();
 	  private String projectpath = System.getProperty("user.dir");
 	  private NetworkConnectionSetting nct=new NetworkConnectionSetting(false, true, true);
@@ -37,7 +39,6 @@ public class Test2 {
 		  cap.setCapability("noReset", "true");//she
 		  driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
 		  driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-		  driver.getNetworkConnection();
 	  }
 	  
 
@@ -51,16 +52,7 @@ public class Test2 {
 //		  if(Element.isElementExist(LoginPage.login_Message(driver))) {
 //			  System.out.println(LoginPage.login_Message(driver).getText());
 //		  }
-		  try {
-			  File screenShot = driver.getScreenshotAs(OutputType.FILE); //此段停止执行，提示 Connection reset
-			  Date date=new Date();
-			  SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-			  String timeString=sdf.format(date);
-//			  FileUtils.copyFile(screenShot,new File("D:\\testscrren.jpg"));
-			  FileUtils.copyFile(screenShot,new File("./screenshot/"+timeString+".jpg"));
-
-			  } catch (Exception e) {
-			  e.printStackTrace(); }
-			  }
+		  Screenshot.takeScreenShot(driver);
+	  }
 	  
 }
