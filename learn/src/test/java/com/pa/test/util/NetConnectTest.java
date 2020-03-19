@@ -51,5 +51,6 @@ public class NetConnectTest {
 			System.out.println("data is ok");
 		}
 		NetworkState.setWiFiOn(driver, nct);
+		
 	}
 }

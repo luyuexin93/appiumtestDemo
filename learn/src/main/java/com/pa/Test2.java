@@ -1,20 +1,14 @@
 package com.pa;
 
-import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 
 import com.pa.controller.LoginController;
-import com.pa.util.Screenshot;
-
+import com.pa.util.ScreenShot;
 import io.appium.java_client.NetworkConnectionSetting;
 import io.appium.java_client.android.AndroidDriver;
 
@@ -52,7 +46,7 @@ public class Test2 {
 //		  if(Element.isElementExist(LoginPage.login_Message(driver))) {
 //			  System.out.println(LoginPage.login_Message(driver).getText());
 //		  }
-		  Screenshot.takeScreenShot(driver);
+		  ScreenShot.takeScreenshot(driver);
 	  }
 	  
 }
