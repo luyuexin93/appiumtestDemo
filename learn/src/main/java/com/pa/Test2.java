@@ -58,14 +58,16 @@ public class Test2 {
 		  
 		  
 		  Test2.setAppium();
-		  LoginController.login(driver, "057105", "057105");
+		  LoginController loginController=new LoginController(driver);
+		  loginController.login( "057105", "057105");
 //		  if(Element.isElementExist(LoginPage.login_Wait(driver))) {
 //			  System.out.println(LoginPage.login_Wait(driver).getText());
 //		  }
 //		  if(Element.isElementExist(LoginPage.login_Message(driver))) {
 //			  System.out.println(LoginPage.login_Message(driver).getText());
 //		  }
-		  ScreenShot.takeScreenshot(driver);
+		  String  nameString = "login";
+		  ScreenShot.takeScreenshot(driver,nameString);
 	  }
 	  
 }

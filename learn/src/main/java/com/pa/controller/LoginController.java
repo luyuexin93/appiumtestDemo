@@ -9,18 +9,28 @@ import io.appium.java_client.android.AndroidDriver;
 
 public class LoginController {
 	
+	private static LoginPage loginPage=new LoginPage();
+	
+	public LoginController(AndroidDriver driver) {
+		this.loginPage.driver=driver;
+	}
 
 	//登录首页
-	public static void login(AndroidDriver driver,String username,String password) {
-		if (Element.isElementExist(LoginPage.login_Account(driver))) {
-			LoginPage.login_Account(driver).sendKeys(username);
+	public  void login(String username,String password) {
+
+		if (Element.isElementExist(this.loginPage.login_Account())) {
+			this.loginPage.login_Account().sendKeys(username);
 		}
-		if (Element.isElementExist(LoginPage.login_Password(driver))) {
-			LoginPage.login_Password(driver).sendKeys(password);
+		if (Element.isElementExist(this.loginPage.login_Password())) {
+			this.loginPage.login_Password().sendKeys(password);
 		}
-		if (Element.isElementExist(LoginPage.login_Btn(driver))) {
-			LoginPage.login_Btn(driver).click();;
+		if (Element.isElementExist(this.loginPage.login_Btn())){
+			this.loginPage.login_Btn().click();
 		}
 		
 	}
+	
+	
+		
+	
 }

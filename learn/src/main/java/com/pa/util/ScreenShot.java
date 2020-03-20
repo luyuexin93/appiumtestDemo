@@ -18,7 +18,7 @@ import io.appium.java_client.android.AndroidDriver;
  * screenshot simple 
  */
 public class ScreenShot {
-	public static void takeScreenshot(AndroidDriver driver) {
+	public static void takeScreenshot(AndroidDriver driver,String filename) {
 		
 		try {
 			File screenShot = driver.getScreenshotAs(OutputType.FILE);  //创建截图文件
@@ -26,7 +26,7 @@ public class ScreenShot {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 			String timeString=sdf.format(date);
 //		  FileUtils.copyFile(screenShot,new File("D:\\testscrren.jpg"));
-			FileUtils.copyFile(screenShot,new File("./screenshot/"+timeString+".jpg"));
+			FileUtils.copyFile(screenShot,new File("./screenshot/"+filename+timeString+".jpg"));
 			
 		} catch (Exception e) {
 			e.printStackTrace(); }

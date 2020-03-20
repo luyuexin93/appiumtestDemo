@@ -6,12 +6,13 @@ import org.openqa.selenium.WebElement;
 import com.pa.location.LoginLocation;
 
 import io.appium.java_client.android.AndroidDriver;
-public class LoginPage {
+public class LoginPage extends BasePage {
 	private static WebElement element=null;
+	
 	//登录账号
-	public static WebElement login_Account(AndroidDriver driver) {
+	public  WebElement login_Account() {
 		try {
-			element = driver.findElement(By.id(LoginLocation.ACCOUNTID_STRING));
+			element = findElement(By.id(LoginLocation.ACCOUNTID_STRING));
 			return element;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -21,9 +22,9 @@ public class LoginPage {
 	}
 	
 	//登录密码
-	public static WebElement login_Password(AndroidDriver driver) {
+	public  WebElement login_Password() {
 		try {
-			element = driver.findElement(By.id(LoginLocation.PASSWORDID_STRING));
+			element =findElement(By.id(LoginLocation.PASSWORDID_STRING));
 			return element;
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -33,9 +34,9 @@ public class LoginPage {
 	}
 	
 	//登录按钮
-	public static WebElement login_Btn(AndroidDriver driver) {
+	public  WebElement login_Btn() {
 		try {
-			element = driver.findElement(By.id(LoginLocation.LOGINID_STRING));
+			element = findElement(By.id(LoginLocation.LOGINID_STRING));
 			return element;
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -46,9 +47,9 @@ public class LoginPage {
 		
 	}
 	//登录提示信息
-	public static WebElement login_Message(AndroidDriver driver) {
+	public  WebElement login_Message() {
 		try {
-			element = driver.findElement(By.xpath(LoginLocation.LOGIN_MESSAGE));
+			element = findElement(By.xpath(LoginLocation.LOGIN_MESSAGE));
 			return element;
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -62,9 +63,9 @@ public class LoginPage {
 
 	
 	//登录等待信息
-	public static WebElement login_Wait(AndroidDriver driver) {
+	public  WebElement login_Wait() {
 		try {
-			element = driver.findElement(By.xpath(LoginLocation.LOGIN_WAIT));
+			element =findElement(By.xpath(LoginLocation.LOGIN_WAIT));
 			return element;
 		} catch (Exception e) {
 			// TODO: handle exception

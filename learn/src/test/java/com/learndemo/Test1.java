@@ -41,7 +41,7 @@ public class Test1 {
 
 	@Test
 	public void test_login() {
-		LoginController.login(driver, "057105", "057105");
+		LoginController login=new LoginController(driver);
 		assertEquals(1 == 1, true);
 	}
 
