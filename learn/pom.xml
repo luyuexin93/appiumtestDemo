@@ -13,7 +13,37 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-
+ <!-- appium依赖下载仓库 --> 
+  <repositories>
+        <repository>
+            <id>aliyunmaven</id>
+            <name>aliyun maven</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
+  <pluginRepositories>
+        <pluginRepository>
+            <id>aliyunmaven</id>
+            <name>aliyun maven</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
+    
+    
   <dependencies>
   	<dependency>
     <groupId>com.comcast.magic-wand</groupId>
@@ -48,6 +78,13 @@
     <artifactId>log4j</artifactId>
     <version>1.2.17</version>
 	</dependency>
+	<!-- https://mvnrepository.com/artifact/com.github.genium-framework/Appium-Support -->
+  <dependency>
+    <groupId>com.github.genium-framework</groupId>
+    <artifactId>Appium-Support</artifactId>
+    <version>1.0.5</version>
+  </dependency>
+	
      
   </dependencies>
   <build>
@@ -55,10 +92,10 @@
    		<plugin>
  			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-surefire-plugin</artifactId>
-			<version>2.19.1</version>
+			<version>2.12.4</version>
 			<configuration>
 			<suiteXmlFiles>
-				./testng.xml
+				<file>${basedir}\testng.xml</file>
 			</suiteXmlFiles>
 			</configuration>
    		</plugin>
