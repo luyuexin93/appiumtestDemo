@@ -4,41 +4,41 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
 
 import com.comcast.magicwand.spells.appium.dawg.utils.AppiumServerController;
 import com.github.genium_framework.appium.support.server.AppiumServer;
 import com.github.genium_framework.server.ServerArguments;
 
-import bsh.This;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 
+/**
+ * @author lu
+ *
+ */
 public class InitAppium {
-	public static String automationName = "Appium"; //
-	public static String deviceName;
-	public static String platformName = "Android";
-	public static String platformVersion = "9";
-	public static String udid; // 设备唯一标识符
-	public static String appPath; // 应用apk路径
-	public static String appPackage; // 应用包名
-	public static String appActivity; // 启动的activity
-	public static String noReset; // 默认不重置应用 清空数据
-	public static String noSign;
-	public static String commandTimeout; // 命令超时时间
+	public String automationName = "Appium"; //
+	public String deviceName;
+	public String platformName = "Android";
+	public String platformVersion = "9";
+	public String udid; // 设备唯一标识符
+	public String appPath; // 应用apk路径
+	public String appPackage; // 应用包名
+	public String appActivity; // 启动的activity
+	public String noReset; // 默认不重置应用 清空数据
+	public String noSign;
+	public String commandTimeout; // 命令超时时间
 
 	public static AndroidDriver driver = null;
 	public static DesiredCapabilities cap = new DesiredCapabilities();
-	//appium server 控制类
+	// appium server 控制类
 	public static AppiumServer aserver;
 	public static AppiumServerController acr;
-	
+
 	public InitAppium() {
 		this(new Builder());
 	}
@@ -49,7 +49,7 @@ public class InitAppium {
 		this.automationName = builder.automationName; //
 		this.deviceName = builder.deviceName;
 		this.platformName = builder.platformName;
-		this.platformVersion = builder.platformName;
+		this.platformVersion = builder.platformVersion;
 		this.udid = builder.udid; // 设备唯一标识符
 		this.appPath = builder.appPath; // 应用apk路径
 		this.appPackage = builder.appPackage; // 应用包名
@@ -59,7 +59,6 @@ public class InitAppium {
 		this.commandTimeout = builder.commandTimeout; // 命令超时时间
 	}
 
-	
 	/**
 	 * @author lu 初始化默认参数内部类Builder
 	 */
@@ -140,25 +139,30 @@ public class InitAppium {
 		}
 
 	}
-	
+
+	/**
+	 * 测试套件 初始化appium服务
+	 */
 	@BeforeSuite
+
 	public void startAppium() {
 		System.setProperty("nodepath", "D:\\Program Files\\nodejs\\node.exe");
-		System.setProperty("appiumjspath", "C:\\Users\\luyuexin\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js");
-		
+		System.setProperty("appiumjspath",
+				"C:\\Users\\luyuexin\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js");
+
 		File nodeFile = new File(System.getProperty("nodepath"));
 		File appiumjs = new File(System.getProperty("appiumjspath"));
-		ServerArguments serverArguments = new ServerArguments(); //初始化服务器参数类
-		aserver= new AppiumServer(nodeFile, appiumjs, serverArguments);
+		ServerArguments serverArguments = new ServerArguments(); // 初始化服务器参数类
+		aserver = new AppiumServer(nodeFile, appiumjs, serverArguments);
 		aserver.startServer(30000);
 		System.out.println(aserver.toString());
-		//appiumserver监听类
+		// appiumserver监听类
 		AppiumServerController act = new AppiumServerController();
 		System.out.println(act.checkServerState("127.0.0.1", 4723));
 	}
-	
+
 	/**
-	 * @throws MalformedURLException 
+	 * @throws MalformedURLException
 	 * 
 	 */
 	@BeforeTest
@@ -175,12 +179,10 @@ public class InitAppium {
 		cap.setCapability("noReset", "true");// she
 		driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
 	}
-	
-	
 
 	@AfterSuite
 	public void stopAppium() {
 //		aserver.stopServer();
 	}
-	
+
 }

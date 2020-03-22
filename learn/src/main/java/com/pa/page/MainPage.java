@@ -1,5 +1,10 @@
 package com.pa.page;
 
-public class MainPage extends BasePage{
+import org.openqa.selenium.WebElement;
 
+public class MainPage extends BasePage {
+	public WebElement Indexbtn() {
+		WebElement element = null;
+		return element;
+	}
 }

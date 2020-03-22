@@ -10,17 +10,14 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import com.pa.controller.LoginController;
-
-import io.appium.java_client.NetworkConnectionSetting;
 import io.appium.java_client.android.AndroidDriver;
 
 public class Test1 {
 
 	private static AndroidDriver driver = null;
 	private static DesiredCapabilities cap = new DesiredCapabilities();
-	private String projectpath = System.getProperty("user.dir");
-	private NetworkConnectionSetting nct = new NetworkConnectionSetting(false, true, true);
+//	private String projectpath = System.getProperty("user.dir");
+//	private NetworkConnectionSetting nct = new NetworkConnectionSetting(false, true, true);
 
 	@BeforeTest
 	public void setAppium() throws MalformedURLException {
@@ -41,7 +38,7 @@ public class Test1 {
 
 	@Test
 	public void test_login() {
-		LoginController login=new LoginController(driver);
+//		LoginController login = new LoginController(driver);
 		assertEquals(1 == 1, true);
 	}
 

@@ -27,10 +27,10 @@ public class Outter {
 		private String name;
 		private int age = 11;
 
-		public Builder() {
-			name = name;
-			age = age;
-		}
+//		public Builder() {
+////			name = name;
+////			age = age;
+//		}
 
 		public Builder setName(String name) {
 			this.name = name;

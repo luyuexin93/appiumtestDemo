@@ -16,7 +16,7 @@ public class Test1 {
 
 	private static AndroidDriver driver = null;
 	private static DesiredCapabilities cap = new DesiredCapabilities();
-	private String projectpath = System.getProperty("user.dir");
+//	private String projectpath = System.getProperty("user.dir");
 	// 获取系统属性
 
 	public void setAppium() throws MalformedURLException {

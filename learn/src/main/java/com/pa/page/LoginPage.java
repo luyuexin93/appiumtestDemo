@@ -1,79 +1,102 @@
 package com.pa.page;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 import com.pa.location.LoginLocation;
+import com.pa.util.Element;;
 
-import io.appium.java_client.android.AndroidDriver;
+/**
+ * @author lu 登陆页元素对象
+ */
 public class LoginPage extends BasePage {
-	private static WebElement element=null;
-	
-	//登录账号
-	public  WebElement login_Account() {
-		try {
-			element = findElement(By.id(LoginLocation.ACCOUNTID_STRING));
-			return element;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-		
-	}
-	
-	//登录密码
-	public  WebElement login_Password() {
-		try {
-			element =findElement(By.id(LoginLocation.PASSWORDID_STRING));
-			return element;
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	//登录按钮
-	public  WebElement login_Btn() {
-		try {
-			element = findElement(By.id(LoginLocation.LOGINID_STRING));
-			return element;
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			return null;
-		}
 
-		
-	}
-	//登录提示信息
-	public  WebElement login_Message() {
+	private WebElement Account;
+	private WebElement Password;
+	private WebElement LoginBtn;
+	private WebElement LoginWait;
+	private WebElement LoginMsg;
+
+//	public LoginPage(AndroidDriver driver) {
+//		this.driver = driver;
+//	}
+
+	public WebElement getAccount() {
 		try {
-			element = findElement(By.xpath(LoginLocation.LOGIN_MESSAGE));
-			return element;
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
+			Account = findElement(By.id(LoginLocation.ACCOUNTID_STRING));
+			return Account;
+		} catch (NoSuchElementException e) {
+//			e.printStackTrace();
 			return null;
 		}
-		
-		
 	}
-	
 
-	
-	//登录等待信息
-	public  WebElement login_Wait() {
+	public WebElement getPassword() {
 		try {
-			element =findElement(By.xpath(LoginLocation.LOGIN_WAIT));
-			return element;
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
+			Password = findElement(By.id(LoginLocation.PASSWORDID_STRING));
+			return Password;
+		} catch (NoSuchElementException e) {
+//			e.printStackTrace();
 			return null;
 		}
-		
-
 	}
+
+	public WebElement getLoginBtn() {
+		try {
+			LoginBtn = findElement(By.id(LoginLocation.LOGINID_STRING));
+			return LoginBtn;
+		} catch (NoSuchElementException e) {
+//			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public WebElement getLoginWait() {
+		try {
+			LoginWait = findElement(By.xpath(LoginLocation.LOGIN_WAIT));
+			return LoginWait;
+		} catch (NoSuchElementException e) {
+//			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public WebElement getLoginMsg() {
+		try {
+			LoginMsg = findElement(By.xpath(LoginLocation.LOGIN_MESSAGE));
+			return LoginMsg;
+		} catch (NoSuchElementException e) {
+//			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public boolean isAccountExist() {
+		return Element.isElementExist(getAccount());
+	}
+
+	public boolean isPasswordExist() {
+		return Element.isElementExist(getPassword());
+	}
+
+	public boolean isLoginBtnExist() {
+		return Element.isElementExist(getLoginBtn());
+	}
+
+	public boolean isLoginWaitExist() {
+		return Element.isElementExist(getLoginWait());
+	}
+
+	public boolean isLoginMsgExist() {
+		return Element.isElementExist(getLoginMsg());
+	}
+
+	public MainPage loginSuccess(String username, String password) {
+		getAccount().sendKeys(username);
+		getPassword().sendKeys(password);
+		getLoginBtn().click();
+		return new MainPage();
+	}
+
 }
-

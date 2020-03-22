@@ -1,36 +1,47 @@
 package com.pa.controller;
 
-import org.openqa.selenium.WebElement;
-
 import com.pa.page.LoginPage;
-import com.pa.util.Element;
 
 import io.appium.java_client.android.AndroidDriver;
 
+/**
+ * @author lu 首页登陆控制类
+ */
 public class LoginController {
-	
-	private static LoginPage loginPage=new LoginPage();
-	
+
+	public LoginPage loginPage = new LoginPage();
+
 	public LoginController(AndroidDriver driver) {
-		this.loginPage.driver=driver;
+		LoginPage.driver = driver;
 	}
 
-	//登录首页
-	public  void login(String username,String password) {
+	/**
+	 * 登陆首页成功
+	 * 
+	 * @param username
+	 * @param password
+	 * @return
+	 */
+//	public MainPage loginSuccess(String username, String password) {
+//
+//		if (accountExist()) {
+//			this.loginPage.login_Account().sendKeys(username);
+//		}
+//		if (Element.isElementExist(this.loginPage.login_Password())) {
+//			this.loginPage.login_Password().sendKeys(password);
+//		}
+//		if (Element.isElementExist(this.loginPage.login_Btn())) {
+//			this.loginPage.login_Btn().click();
+//		}
+//		return new MainPage();
+//	}
+//
+//	/**
+//	 * 
+//	 * @return
+//	 */
+//	public boolean accountExist() {
+//		return Element.isElementExist(this.loginPage.login_Account());
+//	}
 
-		if (Element.isElementExist(this.loginPage.login_Account())) {
-			this.loginPage.login_Account().sendKeys(username);
-		}
-		if (Element.isElementExist(this.loginPage.login_Password())) {
-			this.loginPage.login_Password().sendKeys(password);
-		}
-		if (Element.isElementExist(this.loginPage.login_Btn())){
-			this.loginPage.login_Btn().click();
-		}
-		
-	}
-	
-	
-		
-	
 }
