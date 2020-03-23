@@ -3,8 +3,11 @@ package com.pa.page;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.pa.location.LoginLocation;
+
 import com.pa.util.Element;;
 
 /**
@@ -17,7 +20,7 @@ public class LoginPage extends BasePage {
 	private WebElement LoginBtn;
 	private WebElement LoginWait;
 	private WebElement LoginMsg;
-
+	private static Logger logger= LoggerFactory.getLogger(LoginPage.class);
 //	public LoginPage(AndroidDriver driver) {
 //		this.driver = driver;
 //	}
@@ -28,6 +31,7 @@ public class LoginPage extends BasePage {
 			return Account;
 		} catch (NoSuchElementException e) {
 //			e.printStackTrace();
+			
 			return null;
 		}
 	}
@@ -93,7 +97,14 @@ public class LoginPage extends BasePage {
 	}
 
 	public MainPage loginSuccess(String username, String password) {
-		getAccount().sendKeys(username);
+		if(this.driver==null) {
+			logger.error("driver 为空");
+		}
+		if(this.getAccount()==null) {
+			logger.error("没有找到元素");
+		}
+	    this.Account=getAccount();
+	    Account.sendKeys(username);
 		getPassword().sendKeys(password);
 		getLoginBtn().click();
 		return new MainPage();

@@ -3,8 +3,11 @@ package com.pa.test;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
@@ -12,6 +15,7 @@ import org.testng.annotations.BeforeTest;
 import com.comcast.magicwand.spells.appium.dawg.utils.AppiumServerController;
 import com.github.genium_framework.appium.support.server.AppiumServer;
 import com.github.genium_framework.server.ServerArguments;
+import com.pa.page.BasePage;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -20,7 +24,8 @@ import io.appium.java_client.remote.MobileCapabilityType;
  * @author lu
  *
  */
-public class InitAppium {
+public class InitAppium  {
+	
 	public String automationName = "Appium"; //
 	public String deviceName;
 	public String platformName = "Android";
@@ -38,6 +43,9 @@ public class InitAppium {
 	// appium server 控制类
 	public static AppiumServer aserver;
 	public static AppiumServerController acr;
+	
+	private static Logger logger= LoggerFactory.getLogger(InitAppium.class);
+
 
 	public InitAppium() {
 		this(new Builder());
@@ -70,7 +78,7 @@ public class InitAppium {
 		private String udid = "DWT7N19422002869"; // 设备唯一标识符
 		private String appPath; // 应用apk路径
 		private String appPackage = "com.zjipst.pa"; // 应用包名
-		private String appActivity = ".SplashActivity"; // 启动的activity
+		private String appActivity = ".MainActivity"; // 启动的activity
 		private String noReset = "True"; // 默认不重置应用 清空数据
 		private String noSign = "True";
 		private String commandTimeout = "30"; // 命令超时时间
@@ -158,7 +166,10 @@ public class InitAppium {
 		System.out.println(aserver.toString());
 		// appiumserver监听类
 		AppiumServerController act = new AppiumServerController();
-		System.out.println(act.checkServerState("127.0.0.1", 4723));
+		if(act.checkServerState("127.0.0.1", 4723)){
+			logger.info("APPIUM 服务启动成功");
+		};
+		
 	}
 
 	/**
@@ -178,11 +189,14 @@ public class InitAppium {
 		cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, initAppium.commandTimeout);
 		cap.setCapability("noReset", "true");// she
 		driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
 	}
 
 	@AfterSuite
 	public void stopAppium() {
-//		aserver.stopServer();
+		logger.info("afterSuite: 关闭logger服务");
+		aserver.stopServer();
 	}
 
 }
