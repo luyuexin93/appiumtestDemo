@@ -1,7 +1,16 @@
 package com.pa.test;
 
+
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.apache.commons.lang.ObjectUtils.Null;
 import org.slf4j.Logger;
@@ -17,15 +26,28 @@ import org.testng.annotations.Test;
 import com.pa.page.LoginPage;
 import com.pa.page.MainPage;
 
+import io.qameta.allure.Allure;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Step;
+import io.qameta.allure.Story;
 
+@Epic("Allure examples")
+@Story("正向story")
 public class LoginTest  {
 	LoginPage login;
 	
 	private static Logger logger= LoggerFactory.getLogger(LoginTest.class);
 	@Test
-	public void loginSuccuess() {
+	@Step("登陆失败")
+	public void loginSuccuess() throws IOException {
 		
 		MainPage mPage=login.loginSuccess("057105", "057105");
+		String file=mPage.takeScreenshot("loginSuccess");
+		//文件流
+		Path screenshotPath= FileSystems.getDefault().getPath("screenshot", file+".jpg");
+		try (InputStream is = Files.newInputStream(screenshotPath)){
+			Allure.addAttachment("loginsuccess", is);
+		}
 		assertEquals(mPage.driver, login.driver);
 	}
 

@@ -15,6 +15,7 @@ import org.testng.annotations.AfterSuite;
 public class NewTest {
 	
   private static   Logger logger = LoggerFactory.getLogger(NewTest.class);
+  
   @Test
   public void f() {
 	  System.out.println("@test");

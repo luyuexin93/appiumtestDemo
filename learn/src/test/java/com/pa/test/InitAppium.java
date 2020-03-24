@@ -1,8 +1,14 @@
 package com.pa.test;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -11,14 +17,15 @@ import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 import com.comcast.magicwand.spells.appium.dawg.utils.AppiumServerController;
 import com.github.genium_framework.appium.support.server.AppiumServer;
 import com.github.genium_framework.server.ServerArguments;
-import com.pa.page.BasePage;
-
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
+import io.qameta.allure.Description;
+
 
 /**
  * @author lu
@@ -151,15 +158,27 @@ public class InitAppium  {
 	/**
 	 * 测试套件 初始化appium服务
 	 */
-	@BeforeSuite
+	@BeforeSuite(description = "启动Appiumf服务")
+	@Description("启动Appium服务")
 
-	public void startAppium() {
-		System.setProperty("nodepath", "D:\\Program Files\\nodejs\\node.exe");
-		System.setProperty("appiumjspath",
-				"C:\\Users\\luyuexin\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js");
-
-		File nodeFile = new File(System.getProperty("nodepath"));
-		File appiumjs = new File(System.getProperty("appiumjspath"));
+	public void startAppium() throws IOException {
+		//node 和appium js 路径
+//		System.setProperty("nodepath", "D:\\Program Files\\nodejs\\node.exe");
+//		System.setProperty("appiumjspath",
+//				"C:\\Users\\luyuexin\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js");
+        //改用appium.properties读取配置文件
+		File nodeFile;
+		File appiumjs;
+		/**
+		 * 打开appium.properties文件流 读取appium安装配置
+		 */
+		Path appiumPath= FileSystems.getDefault().getPath("src","test","resources", "appium.properties");
+		try(InputStream is = Files.newInputStream(appiumPath)){
+			Properties properties = new Properties();
+			properties.load(is);
+			nodeFile = new File(properties.getProperty("nodepath"));
+			appiumjs = new File(properties.getProperty("appiumpath"));
+		};
 		ServerArguments serverArguments = new ServerArguments(); // 初始化服务器参数类
 		aserver = new AppiumServer(nodeFile, appiumjs, serverArguments);
 		aserver.startServer(30000);
@@ -177,6 +196,7 @@ public class InitAppium  {
 	 * 
 	 */
 	@BeforeTest
+	@Description("初始化driver连接配置，连接Appium")
 	public void setAppium() throws MalformedURLException {
 		InitAppium initAppium = new InitAppium();
 		cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, initAppium.automationName);
@@ -193,10 +213,14 @@ public class InitAppium  {
 
 	}
 
-	@AfterSuite
+	@AfterSuite(description = "关闭Appium服务")
+	@Description("关闭Appium服务")
 	public void stopAppium() {
 		logger.info("afterSuite: 关闭logger服务");
 		aserver.stopServer();
 	}
-
+	
+	@Test
+	public void f() {
+	}
 }
