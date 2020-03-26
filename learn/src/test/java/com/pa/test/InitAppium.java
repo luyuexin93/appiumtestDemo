@@ -1,5 +1,7 @@
 package com.pa.test;
 
+import static org.testng.Assert.assertNotEquals;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,6 +13,7 @@ import java.nio.file.Path;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,17 +25,19 @@ import org.testng.annotations.Test;
 import com.comcast.magicwand.spells.appium.dawg.utils.AppiumServerController;
 import com.github.genium_framework.appium.support.server.AppiumServer;
 import com.github.genium_framework.server.ServerArguments;
+import com.pa.page.LoginPage;
+
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.qameta.allure.Description;
-
+import io.qameta.allure.Epic;
 
 /**
- * @author lu
- *
+ * @author lu 初始化Appium 及driver连接
  */
-public class InitAppium  {
-	
+@Epic("初始化Appium及driver")
+public class InitAppium {
+
 	public String automationName = "Appium"; //
 	public String deviceName;
 	public String platformName = "Android";
@@ -50,9 +55,8 @@ public class InitAppium  {
 	// appium server 控制类
 	public static AppiumServer aserver;
 	public static AppiumServerController acr;
-	
-	private static Logger logger= LoggerFactory.getLogger(InitAppium.class);
 
+	private static Logger logger = LoggerFactory.getLogger(InitAppium.class);
 
 	public InitAppium() {
 		this(new Builder());
@@ -162,33 +166,35 @@ public class InitAppium  {
 	@Description("启动Appium服务")
 
 	public void startAppium() throws IOException {
-		//node 和appium js 路径
+		// node 和appium js 路径
 //		System.setProperty("nodepath", "D:\\Program Files\\nodejs\\node.exe");
 //		System.setProperty("appiumjspath",
 //				"C:\\Users\\luyuexin\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js");
-        //改用appium.properties读取配置文件
+		// 改用appium.properties读取配置文件
 		File nodeFile;
 		File appiumjs;
 		/**
 		 * 打开appium.properties文件流 读取appium安装配置
 		 */
-		Path appiumPath= FileSystems.getDefault().getPath("src","test","resources", "appium.properties");
-		try(InputStream is = Files.newInputStream(appiumPath)){
+		Path appiumPath = FileSystems.getDefault().getPath("src", "test", "resources", "appium.properties");
+		try (InputStream is = Files.newInputStream(appiumPath)) {
 			Properties properties = new Properties();
 			properties.load(is);
 			nodeFile = new File(properties.getProperty("nodepath"));
 			appiumjs = new File(properties.getProperty("appiumpath"));
-		};
+		}
+		;
 		ServerArguments serverArguments = new ServerArguments(); // 初始化服务器参数类
 		aserver = new AppiumServer(nodeFile, appiumjs, serverArguments);
 		aserver.startServer(30000);
 		System.out.println(aserver.toString());
 		// appiumserver监听类
 		AppiumServerController act = new AppiumServerController();
-		if(act.checkServerState("127.0.0.1", 4723)){
+		if (act.checkServerState("127.0.0.1", 4723)) {
 			logger.info("APPIUM 服务启动成功");
-		};
-		
+		}
+		;
+
 	}
 
 	/**
@@ -207,7 +213,7 @@ public class InitAppium  {
 		cap.setCapability("udid", "DWT7N19422002869"); // 设置设备名 adb devices 对应设备名称
 		cap.setCapability(MobileCapabilityType.APP_ACTIVITY, initAppium.appActivity); // 设置打卡的Activity
 		cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, initAppium.commandTimeout);
-		cap.setCapability("noReset", "true");// she
+		cap.setCapability("noReset", "false");// she
 		driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 
@@ -219,8 +225,23 @@ public class InitAppium  {
 		logger.info("afterSuite: 关闭logger服务");
 		aserver.stopServer();
 	}
-	
+
 	@Test
-	public void f() {
+	@Description("设置权限")
+	public void setRights() {
+		try {
+			driver.findElement(By.id("goto_settings")).click();
+			// 权限窗口 点击始终允许
+			for (int i = 0; i < 6; i++) {
+				driver.findElementByXPath("//*[@text='始终允许']").click();
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		LoginPage loginPage = new LoginPage();
+		loginPage.driver = driver;
+		assertNotEquals(null, loginPage.getAccount());
+		loginPage.takeScreenshotByte("loginPage");
 	}
 }
