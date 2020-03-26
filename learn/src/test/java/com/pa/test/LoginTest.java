@@ -1,21 +1,15 @@
 package com.pa.test;
 
-
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotEquals;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
-import org.apache.commons.lang.ObjectUtils.Null;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
@@ -33,19 +27,20 @@ import io.qameta.allure.Story;
 
 @Epic("Allure examples")
 @Story("正向story")
-public class LoginTest  {
+public class LoginTest {
 	LoginPage login;
-	
-	private static Logger logger= LoggerFactory.getLogger(LoginTest.class);
-	@Test
+
+	private static Logger logger = LoggerFactory.getLogger(LoginTest.class);
+
+	@Test(groups = "LoginModule")
 	@Step("登陆失败")
 	public void loginSuccuess() throws IOException {
-		
-		MainPage mPage=login.loginSuccess("057105", "057105");
-		String file=mPage.takeScreenshot("loginSuccess");
-		//文件流
-		Path screenshotPath= FileSystems.getDefault().getPath("screenshot", file+".jpg");
-		try (InputStream is = Files.newInputStream(screenshotPath)){
+
+		MainPage mPage = login.loginSuccess("057105", "057105");
+		String file = mPage.takeScreenshot("loginSuccess");
+		// 文件流
+		Path screenshotPath = FileSystems.getDefault().getPath("screenshot", file + ".jpg");
+		try (InputStream is = Files.newInputStream(screenshotPath)) {
 			Allure.addAttachment("loginsuccess", is);
 		}
 		assertEquals(mPage.driver, login.driver);
@@ -53,7 +48,7 @@ public class LoginTest  {
 
 	@BeforeMethod
 	public void beforeMethod() {
-		
+
 	}
 
 	@AfterMethod
@@ -62,14 +57,14 @@ public class LoginTest  {
 
 	@BeforeClass
 	public void beforeClass() {
-		 login = new LoginPage();
-		 login.driver= InitAppium.driver;
-		 if (login.driver==null) {
-			 logger.error("driver 为空");
-		 };
-		 
-	}
+		login = new LoginPage();
+		login.driver = InitAppium.driver;
+		if (login.driver == null) {
+			logger.error("driver 为空");
+		}
+		;
 
+	}
 
 	@BeforeTest
 	public void beforeTest() {

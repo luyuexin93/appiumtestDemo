@@ -7,12 +7,12 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
-import org.codehaus.jackson.annotate.JsonTypeInfo.None;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebElement;
 
 import io.appium.java_client.android.AndroidDriver;
+import io.qameta.allure.Attachment;
 
 /**
  * @author luyuexin 页面事件基类
@@ -39,17 +39,24 @@ public class BasePage {
 	public String getText(By by) {
 		return findElement(by).getText();
 	}
-	
-	public  String takeScreenshot(String filename) throws IOException {
-		
-			File screenShot = this.driver.getScreenshotAs(OutputType.FILE);  //创建截图文件
-			Date date=new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-			String timeString=sdf.format(date);
-			String tmpFilename=filename+timeString;
+
+	public String takeScreenshot(String filename) throws IOException {
+
+		File screenShot = this.driver.getScreenshotAs(OutputType.FILE); // 创建截图文件
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		String timeString = sdf.format(date);
+		String tmpFilename = filename + timeString;
 //		  FileUtils.copyFile(screenShot,new File("D:\\testscrren.jpg"));
-			FileUtils.copyFile(screenShot,new File("./screenshot/"+tmpFilename+".jpg"));
-			return tmpFilename;
+		FileUtils.copyFile(screenShot, new File("./screenshot/" + tmpFilename + ".jpg"));
+		return tmpFilename;
+	}
+
+	@Attachment(value = "Page screenshot", type = "image/png")
+	public byte[] takeScreenshotByte(String filename) {
+		byte[] screenshot = this.driver.getScreenshotAs(OutputType.BYTES);
+		return screenshot;
+
 	}
 
 }
