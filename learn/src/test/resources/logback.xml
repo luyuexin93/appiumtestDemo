@@ -3,7 +3,7 @@
 <configuration debug="false">
 
  <!--声明一个属性,用来指定log文件存放的路径-->
-    <property name="LOG_DIR" value="E:\logs\"/>
+    <property name="LOG_DIR" value="E:\logs"/>
 
   <appender name="FILE" class="ch.qos.logback.core.FileAppender">
     <file>E:\myApptest.log</file> 

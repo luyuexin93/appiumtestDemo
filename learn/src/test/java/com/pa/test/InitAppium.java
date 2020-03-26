@@ -2,9 +2,11 @@ package com.pa.test;
 
 import static org.testng.Assert.assertNotEquals;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.FileSystems;
@@ -18,6 +20,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -41,7 +44,7 @@ public class InitAppium {
 	public String automationName = "Appium"; //
 	public String deviceName;
 	public String platformName = "Android";
-	public String platformVersion = "9";
+	public String platformVersion = "6";
 	public String udid; // 设备唯一标识符
 	public String appPath; // 应用apk路径
 	public String appPackage; // 应用包名
@@ -85,8 +88,8 @@ public class InitAppium {
 		private String automationName = "Appium"; //
 		private String deviceName = "S4";
 		private String platformName = "Android";
-		private String platformVersion = "9";
-		private String udid = "DWT7N19422002869"; // 设备唯一标识符
+		private String platformVersion = "6";
+		private String udid = "127.0.0.1:7555"; // 设备唯一标识符
 		private String appPath; // 应用apk路径
 		private String appPackage = "com.zjipst.pa"; // 应用包名
 		private String appActivity = ".MainActivity"; // 启动的activity
@@ -197,23 +200,70 @@ public class InitAppium {
 
 	}
 
+	@BeforeTest(description = "安装应用")
+	@Description
+	public void installApp() throws IOException, InterruptedException {
+		System.out.println("@test");
+	  	File app = new File("E:/apks/PoliceAssistant_2.4.7.860_100-oatest.apk");
+		if(!app.exists()) {
+			return;
+		}
+		String appPath=app.getAbsolutePath();
+		logger.error("安装包路径 "+appPath);
+		logger.info("开始卸载apk");
+		Process process=Runtime.getRuntime().exec("adb -s 127.0.0.1:7555 uninstall com.zjipst.pa" );
+		
+
+		process.waitFor();
+		process.destroy();
+		logger.info("开始安装apk");
+		String cmd="adb -s 127.0.0.1:7555 install "+appPath;
+		Process install=Runtime.getRuntime().exec(cmd);
+		InputStream is = install.getInputStream();
+		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+		StringBuilder sb = new StringBuilder();
+		String line;
+		while ((line = reader.readLine()) != null) {
+			sb.append(line + "\n");
+		}
+//		install.wait(30);
+		Thread.sleep(3000);
+		install.destroy();
+		is.close();
+		logger.debug(sb.toString());
+		
+	}
+	
+	
+	
 	/**
 	 * @throws MalformedURLException
 	 * 
 	 */
-	@BeforeTest
+	@BeforeClass
 	@Description("初始化driver连接配置，连接Appium")
 	public void setAppium() throws MalformedURLException {
 		InitAppium initAppium = new InitAppium();
 		cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, initAppium.automationName);
-		cap.setCapability(MobileCapabilityType.DEVICE_NAME, initAppium.automationName);
+		cap.setCapability(MobileCapabilityType.DEVICE_NAME, initAppium.deviceName);
 		cap.setCapability(MobileCapabilityType.PLATFORM_NAME, initAppium.platformName); // 设置平台
 		cap.setCapability(MobileCapabilityType.PLATFORM_VERSION, initAppium.platformVersion); // 设置系统版本
-		cap.setCapability(MobileCapabilityType.APP_PACKAGE, initAppium.appPackage); // 设置包名
-		cap.setCapability("udid", "DWT7N19422002869"); // 设置设备名 adb devices 对应设备名称
+//		cap.setCapability("udid", initAppium.udid); // 设置设备名 adb devices 对应设备名称
+//		cap.setCapability("udid", "DWT7N19422002869"); // 设置设备名 adb devices 对应设备名称
+		cap.setCapability("udid", "127.0.0.1:7555"); // 设置设备名 adb devices 对应设备名称
+		
+	  	File app = new File("E:/apks/PoliceAssistant_2.4.7.860_100-oatest.apk");
+		if(!app.exists()) {
+			return;
+		}
+		String appPath=app.getAbsolutePath();
+		cap.setCapability(MobileCapabilityType.APP, appPath); // 设置包名
 		cap.setCapability(MobileCapabilityType.APP_ACTIVITY, initAppium.appActivity); // 设置打卡的Activity
+//		cap.setCapability(MobileCapabilityType.APP_ACTIVITY, "MainActivity"); // 设置打卡的Activity
+		cap.setCapability(MobileCapabilityType.APP_PACKAGE, initAppium.appPackage); // 设置包名
 		cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, initAppium.commandTimeout);
-		cap.setCapability("noReset", "false");// she
+//		cap.setCapability("noReset", false);
+//		cap.setCapability("noSign", true);
 		driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 
@@ -226,7 +276,7 @@ public class InitAppium {
 		aserver.stopServer();
 	}
 
-	@Test
+//	@Test
 	@Description("设置权限")
 	public void setRights() {
 		try {
@@ -243,5 +293,10 @@ public class InitAppium {
 		loginPage.driver = driver;
 		assertNotEquals(null, loginPage.getAccount());
 		loginPage.takeScreenshotByte("loginPage");
+	}
+	
+	@Test
+	public void run() {
+		logger.debug("test");
 	}
 }
