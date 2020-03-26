@@ -1,21 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration>
+<!--debug属性用来决定是否打印logback的日志信息-->
+<configuration debug="false">
+
+ <!--声明一个属性,用来指定log文件存放的路径-->
+    <property name="LOG_DIR" value="E:\logs\"/>
 
   <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-    <file>E:\myApp.log</file> 
+    <file>E:\myApptest.log</file> 
+    <append>true</append>
     <encoder>
       <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
     </encoder>
   </appender>
+  
+   <!--文件日志， 按照每天生成日志文件 -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${LOG_DIR}/TestWeb.log.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <!--日志文件保留天数-->
+            <MaxHistory>10</MaxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+        </encoder>
+        <!--日志文件最大的大小-->
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>10MB</MaxFileSize>
+        </triggeringPolicy>
+    </appender>
+  
+  
 
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
       <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
     </encoder>
   </appender>
+  
+ <!-- 定制logger级别
+    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" />
+    <logger name="org.hibernate.type.descriptor.sql.BasicExtractor" level="DEBUG" />
+    <logger name="org.hibernate.SQL" level="DEBUG" />
+    <logger name="org.hibernate.engine.QueryParameters" level="DEBUG" />
+    <logger name="org.hibernate.engine.query.HQLQueryPlan" level="DEBUG" />
 
+    
+    <logger name="com.apache.ibatis" level="TRACE"/>
+    <logger name="java.sql.Connection" level="DEBUG"/>
+    <logger name="java.sql.Statement" level="DEBUG"/>
+    <logger name="java.sql.PreparedStatement" level="DEBUG"/>
+   -->
+ 
   <root level="info">
     <appender-ref ref="FILE" />
     <appender-ref ref="STDOUT" />
   </root>
+  
+   <!--引用其他位置的配置信息-->
+    <!--<includes>-->
+    <!--<include file="/sdcard/foo.xml"/>-->
+    <!--<include resource="assets/config/test.xml"/>-->
+    <!--<include resource="AndroidManifest.xml"/>-->
+
+    <!--<include file="/sdcard/logback/logback-test.xml"/>-->
+    <!--<include file="/sdcard/logback/logback.xml"/>-->
+    <!--<include resource="AndroidManifest.xml"/>-->
+    <!--<include resource="assets/logback-test.xml"/>-->
+    <!--<include resource="assets/logback.xml"/>-->
+    <!--</includes>-->
 </configuration>

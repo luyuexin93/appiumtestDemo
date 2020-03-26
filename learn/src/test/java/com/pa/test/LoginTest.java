@@ -2,8 +2,6 @@ package com.pa.test;
 
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotEquals;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.FileSystem;
@@ -31,7 +29,7 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Step;
 import io.qameta.allure.Story;
 
-@Epic("Allure examples")
+@Epic("登录测试集")
 @Story("正向story")
 public class LoginTest  {
 	LoginPage login;
