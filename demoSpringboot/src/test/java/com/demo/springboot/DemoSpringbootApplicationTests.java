@@ -1,6 +1,7 @@
 package com.demo.springboot;
 
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -10,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -30,7 +30,7 @@ class DemoSpringbootApplicationTests {
 	@Test
 	public void getHello() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.get("/hello").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
-				.andExpect((ResultMatcher) content().string("Hello ,Spring Boot！"));
+				.andExpect(content().string(equalTo("S")));
 	}
 
 }
