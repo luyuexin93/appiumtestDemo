@@ -1,4 +1,4 @@
-package com.pa.test;
+package com.pa;
 
 import static org.testng.Assert.assertNotEquals;
 
