@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.demo.springboot.common.RestResponse;
 import com.demo.springboot.entity.User;
 import com.demo.springboot.service.UserService;
 
@@ -29,8 +30,10 @@ import io.swagger.annotations.ApiOperation;
 
 /**
  * @author 作者 luyuexin:
- * @version 创建时间：2020年3月31日 下午9:17:33 类说明
- */
+ * @version 创建时间：2020年3月31日 下午9:17:33 
+ * 类说明 用户管理类
+ */ 
+ 
 @Api(tags = "用户管理")
 @RestController
 @RequestMapping(value = "/users")
@@ -52,18 +55,41 @@ public class UserController {
 
 	@PostMapping
 	@ApiOperation(value = "创建用户", notes = "根据User对象创建用户")
-	public String postUser(@Valid @RequestBody User user) {
+	public RestResponse postUser(@Valid @RequestBody User user) {
+		RestResponse response = new RestResponse();
 		users.put(user.getId(), user);
 		userService.createUser(user.getName(), user.getAge(), user.getEmail());
-		return "success";
+		return response;
 	}
 
 	@GetMapping("/{id}")
 	@ApiOperation(value = "获取用户详细信息", notes = "根据id获取用户详细信息")
-	public User getUser(@PathVariable Long id) {
-		return users.get(id);
+	public RestResponse getUser(@PathVariable Long id) {
+		RestResponse response = new RestResponse();
+		User user=userService.getById(id);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("detail", user);
+		response.setContent(map);
+		return response;
 	}
-
+   
+	@PostMapping
+	@ApiOperation(value = "修改用户", notes = "根据User对象创建用户")
+	public RestResponse updateUser(@Valid @RequestBody User user) {
+		RestResponse response = new RestResponse();
+		users.put(user.getId(), user);
+		if(user==null ) {
+			response.getRequestResult().setSuccess(false);
+			response.getRequestResult().setErrorMsg("用户信息不存在");
+		}
+		
+		return response;
+	}
+	
+	
+	
+	
+	
 	@PutMapping("/{id}")
 	public String putUser(@PathVariable Long id, @RequestBody User user) {
 		User u = users.get(id);

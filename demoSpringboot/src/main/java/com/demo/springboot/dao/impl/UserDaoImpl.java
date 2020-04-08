@@ -20,7 +20,7 @@ public class UserDaoImpl implements UserDao {
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public User getUserById(Integer id) {
+	public User getUserById(Long id) {
 		// TODO Auto-generated method stu
 		String sql = " select * from user where id= ?";
 		List<User> list = jdbcTemplate.query(sql, new Object[] { id }, new BeanPropertyRowMapper<User>(User.class));

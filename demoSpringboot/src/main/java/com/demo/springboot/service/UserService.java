@@ -26,6 +26,12 @@ public interface UserService {
 	 * @return
 	 */
 	List<User> getByName(String name);
+	/**
+	 * 根据id获取用户详情
+	 * @param id
+	 * @return
+	 */
+	User getById(Long id);
 
 	/**
 	 * 

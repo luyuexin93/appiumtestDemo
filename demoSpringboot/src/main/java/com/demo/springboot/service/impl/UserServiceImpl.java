@@ -10,7 +10,7 @@ import com.demo.springboot.entity.User;
 import com.demo.springboot.service.UserService;
 
 /**
- * @author 作者 Your-Name:
+ * @author 作者luyuexin:
  * @version 创建时间：2020年4月1日 下午4:01:54 类说明
  */
 @Service
@@ -51,6 +51,14 @@ public class UserServiceImpl implements UserService {
 	public int deleteAllUsers() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+    /**
+     * 根据id获取用户信息	
+     */
+	public User getById(Long id) {
+		return userdao.getUserById(id);
 	}
 
 }

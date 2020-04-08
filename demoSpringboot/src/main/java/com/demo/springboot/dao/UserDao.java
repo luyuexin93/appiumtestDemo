@@ -15,7 +15,7 @@ import com.demo.springboot.entity.User;
 @Mapper
 public interface UserDao {
 
-	User getUserById(Integer id);
+	User getUserById(Long id);
 
 	User getUserByName(String name);
 

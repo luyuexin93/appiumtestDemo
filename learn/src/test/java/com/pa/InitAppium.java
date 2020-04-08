@@ -41,10 +41,10 @@ import io.qameta.allure.Epic;
 @Epic("初始化Appium及driver")
 public class InitAppium {
 
-	public String automationName = "Appium"; //
+	public String automationName = "Uiautomator2"; //
 	public String deviceName;
 	public String platformName = "Android";
-	public String platformVersion = "6";
+	public String platformVersion = "7.1";
 	public String udid; // 设备唯一标识符
 	public String appPath; // 应用apk路径
 	public String appPackage; // 应用包名
@@ -85,10 +85,10 @@ public class InitAppium {
 	 * @author lu 初始化默认参数内部类Builder
 	 */
 	public static class Builder {
-		private String automationName = "Appium"; //
+		private String automationName = "Uiautomator2"; //
 		private String deviceName = "S4";
 		private String platformName = "Android";
-		private String platformVersion = "6";
+		private String platformVersion = "5.1";
 		private String udid = "127.0.0.1:7555"; // 设备唯一标识符
 		private String appPath; // 应用apk路径
 		private String appPackage = "com.zjipst.pa"; // 应用包名
@@ -200,7 +200,7 @@ public class InitAppium {
 
 	}
 
-	@BeforeTest(description = "安装应用")
+//	@BeforeTest(description = "安装应用")
 	@Description
 	public void installApp() throws IOException, InterruptedException {
 		System.out.println("@test");
@@ -211,7 +211,7 @@ public class InitAppium {
 		String appPath=app.getAbsolutePath();
 		logger.error("安装包路径 "+appPath);
 		logger.info("开始卸载apk");
-		Process process=Runtime.getRuntime().exec("adb -s 127.0.0.1:7555 uninstall com.zjipst.pa" );
+		Process process=Runtime.getRuntime().exec("adb -s uninstall com.zjipst.pa" );
 		
 
 		process.waitFor();
@@ -244,13 +244,14 @@ public class InitAppium {
 	@Description("初始化driver连接配置，连接Appium")
 	public void setAppium() throws MalformedURLException {
 		InitAppium initAppium = new InitAppium();
-		cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, initAppium.automationName);
+//		cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, initAppium.automationName);
+		cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Espresso");
 		cap.setCapability(MobileCapabilityType.DEVICE_NAME, initAppium.deviceName);
 		cap.setCapability(MobileCapabilityType.PLATFORM_NAME, initAppium.platformName); // 设置平台
 		cap.setCapability(MobileCapabilityType.PLATFORM_VERSION, initAppium.platformVersion); // 设置系统版本
 //		cap.setCapability("udid", initAppium.udid); // 设置设备名 adb devices 对应设备名称
 //		cap.setCapability("udid", "DWT7N19422002869"); // 设置设备名 adb devices 对应设备名称
-		cap.setCapability("udid", "127.0.0.1:7555"); // 设置设备名 adb devices 对应设备名称
+		cap.setCapability("udid", "192.168.205.102:5555"); // 设置设备名 adb devices 对应设备名称
 		
 	  	File app = new File("E:/apks/PoliceAssistant_2.4.7.860_100-oatest.apk");
 		if(!app.exists()) {
@@ -263,7 +264,7 @@ public class InitAppium {
 		cap.setCapability(MobileCapabilityType.APP_PACKAGE, initAppium.appPackage); // 设置包名
 		cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, initAppium.commandTimeout);
 //		cap.setCapability("noReset", false);
-//		cap.setCapability("noSign", true);
+		cap.setCapability("noSign", true);
 		driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 
