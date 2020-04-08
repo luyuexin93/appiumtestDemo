@@ -1,5 +1,6 @@
 package com.demo.springboot.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +43,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int getAllUsers() {
+	public List<User> getAllUsers() {
 		// TODO Auto-generated method stub
-		return 0;
+		List<User> list = new ArrayList<User>();
+		list = userdao.getUserList();
+		return list;
 	}
 
 	@Override
@@ -54,9 +57,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-    /**
-     * 根据id获取用户信息	
-     */
+	/**
+	 * 根据id获取用户信息
+	 */
 	public User getById(Long id) {
 		return userdao.getUserById(id);
 	}

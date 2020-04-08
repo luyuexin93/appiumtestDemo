@@ -40,7 +40,13 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public List<User> getUserList() {
 		// TODO Auto-generated method stub
-		return null;
+		String sql = " select * from user ";
+		List<User> list = jdbcTemplate.query(sql, new BeanPropertyRowMapper<User>(User.class));
+		if (list.size() > 0 && list != null) {
+			return list;
+		} else {
+			return null;
+		}
 	}
 
 	@Override

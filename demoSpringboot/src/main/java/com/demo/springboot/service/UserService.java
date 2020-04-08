@@ -26,8 +26,10 @@ public interface UserService {
 	 * @return
 	 */
 	List<User> getByName(String name);
+
 	/**
 	 * 根据id获取用户详情
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -41,10 +43,11 @@ public interface UserService {
 	int deleteByName(String name);
 
 	/**
+	 * 获取所有用户信息
 	 * 
 	 * @return
 	 */
-	int getAllUsers();
+	List<User> getAllUsers();
 
 	/**
 	 * 

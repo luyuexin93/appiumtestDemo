@@ -30,10 +30,9 @@ import io.swagger.annotations.ApiOperation;
 
 /**
  * @author 作者 luyuexin:
- * @version 创建时间：2020年3月31日 下午9:17:33 
- * 类说明 用户管理类
- */ 
- 
+ * @version 创建时间：2020年3月31日 下午9:17:33 类说明 用户管理类
+ */
+
 @Api(tags = "用户管理")
 @RestController
 @RequestMapping(value = "/users")
@@ -46,14 +45,20 @@ public class UserController {
 	/**
 	 * @return
 	 */
-	@GetMapping("/")
+	@GetMapping("/all")
 	@ApiOperation(value = "获取用户列表")
-	public List<User> getUserList() {
-		List<User> r = new ArrayList<User>(users.values());
-		return r;
+	public RestResponse getUserList() {
+		RestResponse response = new RestResponse();
+//		List<User> r = new ArrayList<User>(users.values());
+		List<User> list = new ArrayList<>();
+		list = userService.getAllUsers();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		response.setContent(map);
+		return response;
 	}
 
-	@PostMapping
+	@PostMapping("/add")
 	@ApiOperation(value = "创建用户", notes = "根据User对象创建用户")
 	public RestResponse postUser(@Valid @RequestBody User user) {
 		RestResponse response = new RestResponse();
@@ -66,30 +71,26 @@ public class UserController {
 	@ApiOperation(value = "获取用户详细信息", notes = "根据id获取用户详细信息")
 	public RestResponse getUser(@PathVariable Long id) {
 		RestResponse response = new RestResponse();
-		User user=userService.getById(id);
+		User user = userService.getById(id);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("detail", user);
 		response.setContent(map);
 		return response;
 	}
-   
-	@PostMapping
+
+	@PostMapping("/update")
 	@ApiOperation(value = "修改用户", notes = "根据User对象创建用户")
 	public RestResponse updateUser(@Valid @RequestBody User user) {
 		RestResponse response = new RestResponse();
 		users.put(user.getId(), user);
-		if(user==null ) {
+		if (user == null) {
 			response.getRequestResult().setSuccess(false);
 			response.getRequestResult().setErrorMsg("用户信息不存在");
 		}
-		
+
 		return response;
 	}
-	
-	
-	
-	
-	
+
 	@PutMapping("/{id}")
 	public String putUser(@PathVariable Long id, @RequestBody User user) {
 		User u = users.get(id);
