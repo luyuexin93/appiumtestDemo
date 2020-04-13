@@ -13,7 +13,7 @@ public class MainPageTest {
 	public MainPage mpage = new MainPage();
 	private static Logger logger = LoggerFactory.getLogger(MainPageTest.class);
 
-	@Test
+	@Test(dependsOnGroups = "LoginModule")
 	public void findwork() {
 		if (mpage.driver == null) {
 			logger.error("driver 为空");

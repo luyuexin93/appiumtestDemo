@@ -17,13 +17,17 @@ public interface UserDao {
 
 	User getUserById(Long id);
 
-	User getUserByName(String name);
+	public List<User> getUserByName(String name);
 
 	public List<User> getUserList();
 
+	public List<User> pageUser(int currentPage, int size, String name, Integer startAge, Integer endAge, String email);
+
+	public Long countUser(int currentPage, int size, String name, Integer startAge, Integer endAge, String email);
+
 	public int addUser(User user);
 
-	public int updateUser(Integer id, User user);
+	public int updateUser(User user);
 
-	public int deleteUser(Integer id);
+	public int deleteUser(Long id);
 }

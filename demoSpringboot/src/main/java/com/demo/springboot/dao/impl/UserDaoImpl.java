@@ -1,10 +1,14 @@
 package com.demo.springboot.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import com.demo.springboot.dao.UserDao;
@@ -32,9 +36,14 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public User getUserByName(String name) {
+	public List<User> getUserByName(String name) {
 		// TODO Auto-generated method stub
-		return null;
+		String sql = " select * from user where 1=1";
+		if (StringUtils.isNotEmpty(name)) {
+			sql += " and name like '%" + name + "' ";
+		}
+		List<User> list = jdbcTemplate.query(sql, new BeanPropertyRowMapper<User>(User.class));
+		return list;
 	}
 
 	@Override
@@ -58,15 +67,69 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public int updateUser(Integer id, User user) {
+	public int updateUser(User user) {
 		// TODO Auto-generated method stub
-		return 0;
+		String sql = "update user set name=:name, age=:age ,email=:email where id=:id";
+		int n = jdbcTemplate.update(sql, new BeanPropertySqlParameterSource(user));
+		return n;
 	}
 
 	@Override
-	public int deleteUser(Integer id) {
+	public int deleteUser(Long id) {
 		// TODO Auto-generated method stub
-		return 0;
+		String sql = " delete from user where id=:id";
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		int n = jdbcTemplate.update(sql, map);
+		return n;
+	}
+
+	@Override
+	public List<User> pageUser(int currentPage, int size, String name, Integer startAge, Integer endAge, String email) {
+		// TODO Auto-generated method stub
+//		Map<String, Object> map = new HashMap<String, Object>();
+		int page = (currentPage * size) - size;
+		String sql = "select * from user where 1=1 ";
+		if (StringUtils.isNotBlank(name)) {
+			sql += " and name like '%" + name + "%' ";
+		}
+		if (startAge != null) {
+			sql += " and age > " + startAge;
+		}
+		if (endAge != null) {
+			sql += " and age < " + endAge;
+
+		}
+		if (StringUtils.isNotBlank(email)) {
+			sql += " and email like '%" + name + "%' ";
+		}
+
+		sql += " order by age desc " + " limit " + page + " , " + size;
+		List<User> list = jdbcTemplate.query(sql, new BeanPropertyRowMapper<User>(User.class));
+		return list;
+	}
+
+	public Long countUser(int currentPage, int size, String name, Integer startAge, Integer endAge, String email) {
+		// TODO Auto-generated method stub
+//		Map<String, Object> map = new HashMap<String, Object>();
+		int page = (currentPage * size) - size;
+		String sql = "select count(*) from user where 1=1 ";
+		if (StringUtils.isNotBlank(name)) {
+			sql += " and name like '%" + name + "%' ";
+		}
+		if (startAge != null) {
+			sql += " and age > " + startAge;
+		}
+		if (endAge != null) {
+			sql += " and age < " + endAge;
+
+		}
+		if (StringUtils.isNotBlank(email)) {
+			sql += " and email like '%" + name + "%' ";
+		}
+
+		sql += " order by age desc " + " limit " + page + " , " + size;
+		return jdbcTemplate.queryForObject(sql, Long.class);
 	}
 
 }

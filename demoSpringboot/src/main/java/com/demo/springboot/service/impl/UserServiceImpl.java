@@ -1,7 +1,9 @@
 package com.demo.springboot.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,7 @@ import com.demo.springboot.service.UserService;
 @Service
 public class UserServiceImpl implements UserService {
 	@Autowired
-	private UserDao userdao;
+	private UserDao userDao;
 
 	@Override
 	public int createUser(String name, Integer age, String email) {
@@ -26,14 +28,14 @@ public class UserServiceImpl implements UserService {
 		user.setAge(age);
 		user.setEmail(email);
 		user.setName(name);
-		userdao.addUser(user);
+		userDao.addUser(user);
 		return 0;
 	}
 
 	@Override
 	public List<User> getByName(String name) {
 		// TODO Auto-generated method stub
-		return null;
+		return userDao.getUserByName(name);
 	}
 
 	@Override
@@ -46,7 +48,7 @@ public class UserServiceImpl implements UserService {
 	public List<User> getAllUsers() {
 		// TODO Auto-generated method stub
 		List<User> list = new ArrayList<User>();
-		list = userdao.getUserList();
+		list = userDao.getUserList();
 		return list;
 	}
 
@@ -61,7 +63,24 @@ public class UserServiceImpl implements UserService {
 	 * 根据id获取用户信息
 	 */
 	public User getById(Long id) {
-		return userdao.getUserById(id);
+		return userDao.getUserById(id);
+	}
+
+	@Override
+	public Map<String, Object> getUserByPage(int currentPage, int size, String name, Integer startAge, Integer endAge,
+			String email) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<User> userlist = userDao.pageUser(currentPage, size, name, startAge, endAge, email);
+		Long userCount = userDao.countUser(currentPage, size, name, startAge, endAge, email);
+		map.put("userList", userlist);
+		map.put("userCount", userCount);
+		return map;
+	}
+
+	@Override
+	public int updateUser(User user) {
+		// TODO Auto-generated method stub
+		return userDao.updateUser(user);
 	}
 
 }

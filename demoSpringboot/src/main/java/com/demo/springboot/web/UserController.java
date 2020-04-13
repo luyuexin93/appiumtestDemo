@@ -78,17 +78,45 @@ public class UserController {
 		return response;
 	}
 
+	@ApiOperation(value = "用户分页查询", notes = "根据条件分页查询用户")
+	@PostMapping("/query/page")
+	public RestResponse queryBypage(@RequestBody Map<String, Object> params) {
+		RestResponse response = new RestResponse();
+		if (params == null || params.size() < 1) {
+			response.getRequestResult().setSuccess(false);
+			response.getRequestResult().setErrorMsg("参数有误");
+			return response;
+		}
+		int currentPage = (int) params.get("currentPage");
+		int size = (int) params.get("size");
+		String name = (String) params.get("name");
+		String email = (String) params.get("email");
+		Integer startAge = (Integer) params.get("startAge");
+		Integer endAge = (Integer) params.get("endAge");
+		Map<String, Object> map = userService.getUserByPage(currentPage, size, name, startAge, endAge, email);
+		response.setContent(map);
+		return response;
+	}
+
 	@PostMapping("/update")
 	@ApiOperation(value = "修改用户", notes = "根据User对象创建用户")
 	public RestResponse updateUser(@Valid @RequestBody User user) {
 		RestResponse response = new RestResponse();
 		users.put(user.getId(), user);
-		if (user == null) {
+		if (user.getId() == null) {
 			response.getRequestResult().setSuccess(false);
-			response.getRequestResult().setErrorMsg("用户信息不存在");
+			response.getRequestResult().setErrorMsg("用户id不存在");
+			return response;
 		}
-
+		int n = userService.updateUser(user);
+		if (n > 0) {
+			response.getRequestResult().setSuccess(true);
+		} else {
+			response.getRequestResult().setSuccess(false);
+			response.getRequestResult().setErrorMsg("更新失败");
+		}
 		return response;
+
 	}
 
 	@PutMapping("/{id}")

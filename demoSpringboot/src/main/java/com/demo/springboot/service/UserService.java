@@ -7,6 +7,7 @@ package com.demo.springboot.service;
 */
 
 import java.util.List;
+import java.util.Map;
 
 import com.demo.springboot.entity.User;
 
@@ -36,6 +37,14 @@ public interface UserService {
 	User getById(Long id);
 
 	/**
+	 * 更新用户信息
+	 * 
+	 * @param id
+	 * @return
+	 */
+	int updateUser(User user);
+
+	/**
 	 * 
 	 * @param name
 	 * @return
@@ -54,5 +63,19 @@ public interface UserService {
 	 * @return
 	 */
 	int deleteAllUsers();
+
+	/**
+	 * user分页条件查询
+	 * 
+	 * @param currentPage
+	 * @param size
+	 * @param name
+	 * @param startAge
+	 * @param endAge
+	 * @param email
+	 * @return
+	 */
+	Map<String, Object> getUserByPage(int currentPage, int size, String name, Integer startAge, Integer endAge,
+			String email);
 
 }
