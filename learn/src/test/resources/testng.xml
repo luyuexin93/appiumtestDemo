@@ -3,7 +3,7 @@
 <suite name="移动接处警" verbose="1" >
   <test name="Regression1"  preserve-order="true" >
     <packages>
-      <package name="com.pa.test" />
+      <package name="com.pa" />
    </packages>
    <!-- 
    <classes>

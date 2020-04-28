@@ -30,7 +30,7 @@ public class UserControllerTest {
 		mvc = MockMvcBuilders.standaloneSetup(new UserController()).build();
 	}
 
-	@Test
+//	@Test
 	public void testUserController() throws Exception {
 		RequestBuilder request;
 

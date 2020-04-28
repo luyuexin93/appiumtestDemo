@@ -245,7 +245,7 @@ public class InitAppium {
 	public void setAppium() throws MalformedURLException {
 		InitAppium initAppium = new InitAppium();
 //		cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, initAppium.automationName);
-		cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Espresso");
+		cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Uiautomator2");
 		cap.setCapability(MobileCapabilityType.DEVICE_NAME, initAppium.deviceName);
 		cap.setCapability(MobileCapabilityType.PLATFORM_NAME, initAppium.platformName); // 设置平台
 		cap.setCapability(MobileCapabilityType.PLATFORM_VERSION, initAppium.platformVersion); // 设置系统版本
