@@ -7,18 +7,19 @@ import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
 
 import com.pa.page.MainPage;
+import com.pa.page.PreparePage;
 
-public class MainPageTest {
+public class PreparePageTest {
 
-	public MainPage mpage = new MainPage();
-	private static Logger logger = LoggerFactory.getLogger(MainPageTest.class);
+	public PreparePage prepage = new PreparePage();
+	private static Logger logger = LoggerFactory.getLogger(PreparePageTest.class);
 
 	@Test(dependsOnGroups = "LoginModule")
 	public void findwork() {
-		if (mpage.driver == null) {
+		if (prepage.driver == null) {
 			logger.error("driver 为空");
 		}
-		assertNotEquals(mpage.getWork(), null);
-		mpage.getWork().click();
+//		assertNotEquals(mpage.getWork(), null);
+//		mpage.getWork().click();
 	}
 }
