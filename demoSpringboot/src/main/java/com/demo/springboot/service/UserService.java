@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.demo.springboot.entity.User;
+import com.demo.springboot.entity.Zzjg;
 
 public interface UserService {
 	/**
@@ -78,4 +79,10 @@ public interface UserService {
 	Map<String, Object> getUserByPage(int currentPage, int size, String name, Integer startAge, Integer endAge,
 			String email);
 
+	/**
+	 * 
+	 * @param jdid
+	 * @return
+	 */
+	Zzjg getZzjgById(String jdid);
 }

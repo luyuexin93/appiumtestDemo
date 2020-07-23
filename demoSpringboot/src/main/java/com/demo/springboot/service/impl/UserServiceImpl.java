@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.demo.springboot.dao.UserDao;
 import com.demo.springboot.entity.User;
+import com.demo.springboot.entity.Zzjg;
 import com.demo.springboot.service.UserService;
 
 /**
@@ -81,6 +82,12 @@ public class UserServiceImpl implements UserService {
 	public int updateUser(User user) {
 		// TODO Auto-generated method stub
 		return userDao.updateUser(user);
+	}
+
+	@Override
+	public Zzjg getZzjgById(String jgid) {
+		Zzjg zzjg=userDao.queryZzjg(jgid);
+		return zzjg;
 	}
 
 }

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.demo.springboot.common.RestResponse;
 import com.demo.springboot.entity.User;
+import com.demo.springboot.entity.Zzjg;
 import com.demo.springboot.service.UserService;
 
 import io.swagger.annotations.Api;
@@ -135,4 +136,14 @@ public class UserController {
 		return "success";
 	}
 
+	@PostMapping("/queryZzjg")
+	@ApiOperation(value = "创建用户", notes = "根据User对象创建用户")
+	public RestResponse queryZzjg(@Valid @RequestBody Map<String, Object> params) {
+		RestResponse response = new RestResponse();
+		String jgid=(String)params.get("jgid");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("zzjg", userService.getZzjgById(jgid));
+		response.setContent(map);
+		return response;
+	}
 }

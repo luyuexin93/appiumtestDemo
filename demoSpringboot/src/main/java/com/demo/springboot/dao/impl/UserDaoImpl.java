@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import com.demo.springboot.dao.UserDao;
 import com.demo.springboot.entity.User;
+import com.demo.springboot.entity.Zzjg;
 
 /**
  * @author 作者 Your-Name:
@@ -21,7 +23,11 @@ import com.demo.springboot.entity.User;
 @Repository
 public class UserDaoImpl implements UserDao {
 	@Autowired
+	@Qualifier("primaryJdbcTemplate")
 	private JdbcTemplate jdbcTemplate;
+	@Autowired
+	@Qualifier("psc110JdbcTemplate")
+	private JdbcTemplate psc110jdbcTemplate;
 
 	@Override
 	public User getUserById(Long id) {
@@ -131,5 +137,16 @@ public class UserDaoImpl implements UserDao {
 		sql += " order by age desc " + " limit " + page + " , " + size;
 		return jdbcTemplate.queryForObject(sql, Long.class);
 	}
+	
+	public Zzjg queryZzjg(String jgid) {
+		String sql = "select * from ZZJG_ZZJG where 1=1 ";
+		if (StringUtils.isNotBlank(jgid)) {
+			sql += "and jgid= '" + jgid+"'";
+		}
+		List<Zzjg> list=psc110jdbcTemplate.query(sql, new BeanPropertyRowMapper<Zzjg>(Zzjg.class));
+		
+		return list.get(0);
+	}
+	
 
 }
