@@ -5,6 +5,7 @@ import java.util.List;
 import org.mapstruct.Mapper;
 
 import com.demo.springboot.entity.Apk;
+import com.demo.springboot.model.ApkQueryCond;
 
 
 
@@ -16,13 +17,15 @@ import com.demo.springboot.entity.Apk;
  */
 @Mapper
 public interface ApkDao {
-	Apk queryApkById(String id);
+	public Apk queryApkById(String id);
 
 	public List<Apk> queryApkByName(String name);
 
 	public List<Apk> queryApksByPubTime(String pubTime);
 	
 	public List<Apk> queryApkByFeature(String feature);
+	
+	public List<Apk> queryApk(ApkQueryCond apk);
 	
 	public int addApk(Apk apk);
 
