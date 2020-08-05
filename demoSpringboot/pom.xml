@@ -89,7 +89,20 @@
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc6</artifactId>
 			<version>12.1.0.1.0</version>
-		</dependency>
+	</dependency>
+	
+	<!-- hasor Dataway集成 -->
+	<dependency>
+    	<groupId>net.hasor</groupId>
+    	<artifactId>hasor-spring</artifactId>
+    	<version>4.1.6</version>
+	</dependency>
+	<dependency>
+    	<groupId>net.hasor</groupId>
+    	<artifactId>hasor-dataway</artifactId>
+   		 <version>4.1.6</version>
+	</dependency>
+	
 </dependencies>
 
 <repositories>

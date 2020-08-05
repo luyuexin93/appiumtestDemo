@@ -45,7 +45,7 @@ public class DataSourceConfig {
 
     @Bean(name = "secondaryNamedParameterJdbcTemplate")
     public NamedParameterJdbcTemplate secondaryNamedParameterJdbcTemplate(
-            @Qualifier("secondaryDataSource") DataSource dataSource) {
+            @Qualifier("psc110DataSource") DataSource dataSource) {
         return new NamedParameterJdbcTemplate(dataSource);
     }
 }
